@@ -15,6 +15,7 @@
 
 <script>
 import api from "../../api/axios";
+import { useAuthStore } from "../../stores/auth";
 
 export default {
     data() {
@@ -29,14 +30,16 @@ export default {
     methods: {
         async login() {
             try{
-                const response = await api.post("/login", {
-                    email:this.email,
+
+                const auth = useAuthStore();
+
+                await auth.login({
+                    email: this.email,
                     password: this.password,
                 });
 
-                localStorage.setItem("token", response.data.token);
-
                 this.$router.push("/dashboard");
+    
             } catch (err) {
                 this.error = "Invalid login credentials";
             }

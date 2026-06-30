@@ -11,19 +11,17 @@
 
 <script>
 import api from "../../api/axios";
+import { useAuthStore } from "../../stores/auth";
 
 export default {
     methods: {
         async logout() {
-            try {
-                await api.post("/logout");
 
-                localStorage.removeItem("token");
-
-                this.$router.push("/login");
-            } catch (err) {
-                console.log(err);
-            }
+            const auth = useAuthStore();
+            
+            await auth.logout();
+            
+            this.$router.push("/login");
         },
     },
 };
