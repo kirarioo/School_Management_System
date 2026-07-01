@@ -33,12 +33,26 @@ export default {
 
                 const auth = useAuthStore();
 
-                await auth.login({
+                const data = await auth.login({
                     email: this.email,
                     password: this.password,
                 });
 
-                this.$router.push("/dashboard");
+                const role = data.roles[0];
+
+                if (role === "Admin"){
+                    this.$router.push("/admin");
+                } else if (role === "Teacher") {
+                    this.$router.push("/teacher");
+                } else if (role === "Student") {
+                    this.$router.push("/student");
+                } else if (role === "Accountant") {
+                    this.$router.push("/finance");
+                } else if (role === "Parent") {
+                    this.$router.push("/parent");
+                } else {
+                    this.$router.push("/dashboard");
+                }
     
             } catch (err) {
                 this.error = "Invalid login credentials";

@@ -5,10 +5,17 @@ export const useAuthStore = defineStore("auth", {
     state: () => ({
         user: null,
         token: localStorage.getItem("token") || null,
+        role: [],
     }),
 
     getters: {
         isAuthenticated: (state) => !!state.token,
+        
+        isAdmin: (state) => state.rolees.includes("Admin"),
+        isTeacher: (state) => state.rolees.includes("Teacher"),
+        isStudent: (state) => state.rolees.includes("Student"),
+        isAccountant: (state) => state.rolees.includes("Accountant"),
+        isParent: (state) => state.rolees.includes("Parent"),
     },
 
     actions: {
@@ -17,6 +24,7 @@ export const useAuthStore = defineStore("auth", {
 
             this.token = response.data.token;
             this.user = response.data.user;
+            this.role = response.data.roles;
 
             localStorage.setItem("token", this.token);
 
